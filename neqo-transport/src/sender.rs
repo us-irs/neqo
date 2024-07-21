@@ -16,7 +16,10 @@ use std::{
 use neqo_common::{qdebug, qlog::NeqoQlog};
 
 use crate::{
-    cc::{ClassicCongestionControl, CongestionControl, CongestionControlAlgorithm, Cubic, NewReno},
+    cc::{
+        ClassicCongestionControl, CongestionControl, CongestionControlAlgorithm, Cubic, NewReno,
+        NoCc,
+    },
     pace::Pacer,
     pmtud::Pmtud,
     recovery::SentPacket,
@@ -50,6 +53,7 @@ impl PacketSender {
         let mtu = pmtud.plpmtu();
         Self {
             cc: match alg {
+                CongestionControlAlgorithm::NoCc => Box::new(NoCc::new(pmtud)),
                 CongestionControlAlgorithm::NewReno => {
                     Box::new(ClassicCongestionControl::new(NewReno::default(), pmtud))
                 }

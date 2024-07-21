@@ -605,7 +605,7 @@ mod tests {
             classic_cc::State,
             cubic::{Cubic, CUBIC_BETA_USIZE_DIVIDEND, CUBIC_BETA_USIZE_DIVISOR},
             new_reno::NewReno,
-            CongestionControl, CongestionControlAlgorithm, CWND_INITIAL_PKTS,
+            CongestionControl, CongestionControlAlgorithm, NoCc, CWND_INITIAL_PKTS,
         },
         packet::{PacketNumber, PacketType},
         recovery::SentPacket,
@@ -658,6 +658,7 @@ mod tests {
                 Cubic::default(),
                 Pmtud::new(IP_ADDR),
             )),
+            CongestionControlAlgorithm::NoCc => Box::new(NoCc::new(Pmtud::new(IP_ADDR))),
         }
     }
 

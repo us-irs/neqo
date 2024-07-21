@@ -19,12 +19,14 @@ use crate::{recovery::SentPacket, rtt::RttEstimate, Error, Pmtud};
 mod classic_cc;
 mod cubic;
 mod new_reno;
+mod no_cc;
 
 pub use classic_cc::ClassicCongestionControl;
 #[cfg(test)]
 pub use classic_cc::CWND_INITIAL_PKTS;
 pub use cubic::Cubic;
 pub use new_reno::NewReno;
+pub use no_cc::NoCc;
 
 pub trait CongestionControl: Display + Debug {
     fn set_qlog(&mut self, qlog: NeqoQlog);
@@ -79,6 +81,7 @@ pub trait CongestionControl: Display + Debug {
 pub enum CongestionControlAlgorithm {
     NewReno,
     Cubic,
+    NoCc,
 }
 
 // A `FromStr` implementation so that this can be used in command-line interfaces.
